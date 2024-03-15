@@ -1,0 +1,29 @@
+ {% include 'employeeapp/navigation.html' %}
+    <div class="main"> 
+      <div class="row-cards">
+     <a href="{% url 'employee_register' %}"><div class="card card1">Apply Leave</div></a>
+      <a href=""><div class="card card2">Raise Complaint</div></a>
+      <a href=""><div class="card card3">Attendance</div></a>
+      <a href=""><div class="card card4">Download Center</div></a>
+      <a href=""><div class="card card5">My Documents</div></a>
+      <a href=""><div class="card card6">Fine List</div></a>
+      <a href=""><div class="card card7">Phone Directory</div></a>
+      <a href=""><div class="card card8">Notice Board</div></a>
+      </div>
+      <div class="line-chart">
+        <div class="graph-text">
+        <h1 class="attendance-graph-text">Attendance Graph : </h1>
+        <p class="attendance-graph-subtext">  Last Year</p>
+        </div>
+        <div class="graph-changes">
+        <canvas id="myChart"></canvas>
+        </div>
+      </div>
+    </div> 
+  </div> 
+
+  
+
+  <script src="/media/index.js"></script> 
+</body> 
+</html>

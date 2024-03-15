@@ -1,0 +1,92 @@
+ {% include 'employeeapp/navigation.html' %}
+    <div class="main"> 
+         {{ form.non_field_errors }}
+     
+      <div align="right">
+             <a href="{% url 'phone_directory' %}"> <i class="fa fa-list"></i> Phone Directory</a>
+      </div>
+
+           <form method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+     <!-- {{ form.as_p }} -->
+    
+    <div class="form-group"  >
+        
+        <!-- <input type="hidden" class="form-control" name="apply_by" value="{{ user.username }}"> -->
+
+         <input type="hidden" class="form-control" name="created_by" value="{% if form.created_by.value is not empty %}{{ form.created_by.value }}{% else %}{{ user.username }}{% endif %}">
+
+
+          
+
+         {% for error in form.username.errors %}
+            <small class="form-text text-danger">{{ error }}</small>
+        {% endfor %}
+       
+    </div>
+
+    <div class="form-group">
+        <label >Name</label>
+        <input type="text" class="form-control" name="name" value="{{ form.name.value }}" required>
+          
+
+         {% for error in form.name.errors %}
+            <small class="form-text text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+
+    <div class="form-group">
+        <label >Position:</label>
+        <input type="text" class="form-control" name="position" value="{{ form.position.value }}" required>
+
+        {% for error in form.position.errors %}
+            <small class="form-text text-danger">{{ error }}</small>
+        {% endfor %}
+       
+    </div>
+
+    <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Phone:</label>
+        <input type="text" class="form-control" name="phone" value="{{ form.phone.value }}" required>
+          {% for error in form.phone.errors %}
+            <small class="form-text text-danger">{{ error }}</small>
+        {% endfor %}
+        
+    </div>
+
+
+    <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Email:</label>
+        <input type="text" class="form-control" name="email" value="{{ form.email.value }}" required>
+          {% for error in form.email.errors %}
+            <small class="form-text text-danger">{{ error }}</small>
+        {% endfor %}
+        
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Photo</label>
+        <input type="file"  name="photo" value="{{ form.photo.value }}" >
+         
+        
+    </div>
+
+   
+
+    <button class="btn btn-primary" type="submit">Apply </button> 
+</form>
+
+
+    </div> 
+  </div> 
+
+  
+
+  <script src="/media/index.js"></script> 
+</body> 
+</html>
