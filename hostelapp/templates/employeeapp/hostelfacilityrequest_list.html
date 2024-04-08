@@ -20,6 +20,8 @@
     <tbody>
 
     {% for request in requests %}
+
+    {%  if  user.role == 'admin' %}
         <tr>
             <td>{{ request.created_by }} </td>
             <td>{{ request.facility }} </td>
@@ -43,7 +45,73 @@
 </td>
             <td><a href="{% url 'request_delete' pk=request.pk %}"><i class="fa fa-trash-o"></i></a>
                  <a href="{% url 'request_edit' pk=request.pk %}"><i class="fa fa-edit"></i></a></td> 
-        </tr>    
+        </tr> 
+{% else %}
+
+
+        <tr  {% if request.created_by != user.username %} style="display:none" {% endif %}>
+            <td>{{ request.created_by }} </td>
+            <td>{{ request.facility }} </td>
+            <td>{{ request.desc }} </td>
+            <td>{{ request.date }} </td>
+           
+        {%  if  user.role == 'admin' %}
+            <td>
+    {% if request.approved_status == 0 %}
+    
+        <button class="btn btn-primary"onclick="approverequest({{ request.id }})" title="approve"><i class="fa fa-check-circle"></i></button>
+
+        <button class="btn btn-danger"onclick="rejectrequest({{ request.id }})" title="reject"><i class="fa fa-ban"></i></button>
+
+   {% elif request.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+
+         
+    
+</td>
+
+ {% else %}
+
+<td>
+    {% if request.approved_status == 0 %}
+    
+       Requested
+
+   {% elif request.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+
+         
+    
+</td>
+
+ {% endif %}
+            <td>
+                <!-- <a href="{% url 'request_delete' pk=request.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'request_edit' pk=request.pk %}"><i class="fa fa-edit"></i></a> -->
+             </td> 
+        </tr> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% endif %}       
     {% endfor %}
 
     </tbody>

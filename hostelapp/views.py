@@ -14,6 +14,11 @@ from .models import News_letter
 from .models import Facility_Request
 from .models import Scorecard
 from .models import Refund_Request
+from .models import Fine_List
+from .models import About_Hostel
+from .models import Contact_us
+from .models import Instructions
+from .models import Attendance
 from .forms import EmployeeRegistrationForm
 from .forms import EmployeeLoginForm
 from .forms import EmployeeChangeForm
@@ -26,6 +31,11 @@ from .forms import PhoneDirectoryForm
 from .forms import FacilityApplyForm
 from .forms import ScoreCardApplyForm
 from .forms import RefundApplyForm
+from .forms import FineApplyForm
+from .forms import AbouthostelForm
+from .forms import ContactusForm
+from .forms import InstructionsForm
+from .forms import AttendanceForm
 from django.views.generic.edit import UpdateView
 from django.shortcuts import redirect
 from django.contrib.auth import logout
@@ -37,6 +47,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.contrib import messages
+
+
+
 
 
 
@@ -651,3 +664,157 @@ def reject_refundrequest(request):
         return JsonResponse({'message': 'refund Request Rejected'})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)      
+
+
+class FineUploadView(CreateView):
+    model = Fine_List
+    form_class = FineApplyForm
+    template_name = 'employeeapp/fineappform.html'
+    success_url = reverse_lazy('FineListView')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['students'] = Employee.objects.all()
+        return context
+
+
+
+def FineListView(request):
+    fines = Fine_List.objects.all()
+    return render(request, 'employeeapp/fine_list.html', {'fines': fines})    
+
+
+
+
+def fine_delete(request, pk):
+    fine = get_object_or_404(Fine_List, pk=pk)
+    fine.delete()
+    return redirect('FineListView')
+
+
+def fine_Edit(request, pk):
+    fine = get_object_or_404(Fine_List, pk=pk)
+    if request.method == "POST":
+        form = FineApplyForm(request.POST, instance=fine)
+        if form.is_valid():
+            fine = form.save(commit=False)
+            fine.save()
+            return redirect('FineListView')
+           
+    else:
+        form = FineApplyForm(instance=fine)
+    
+    
+    students = Employee.objects.all()
+    
+    return render(request, 'employeeapp/fineappform.html', {'form': form, 'students': students})
+
+
+
+def AboutHostelView(request):
+    about = get_object_or_404(About_Hostel, pk='1')
+    if request.method == "POST":
+        form = AbouthostelForm(request.POST, instance=about)
+        if form.is_valid():
+            about = form.save(commit=False)
+            about.save()
+            return redirect('about_hostel')
+           
+    else:
+        form = AbouthostelForm(instance=about)
+    
+    students = Employee.objects.all()
+    
+    return render(request, 'employeeapp/aboutus.html', {'form': form, 'students': students})
+
+
+
+
+
+
+
+def ContactusView(request):
+    about = get_object_or_404(Contact_us, pk='1')
+    if request.method == "POST":
+        form = ContactusForm(request.POST, instance=about)
+        if form.is_valid():
+            about = form.save(commit=False)
+            about.save()
+            return redirect('contact_us')
+           
+    else:
+        form = ContactusForm(instance=about)
+    
+    students = Employee.objects.all()
+    
+    return render(request, 'employeeapp/contactus.html', {'form': form, 'students': students})
+
+
+
+
+
+
+
+
+
+
+
+def InstructionsView(request):
+    about = get_object_or_404(Instructions, pk='1')
+    if request.method == "POST":
+        form = InstructionsForm(request.POST, instance=about)
+        if form.is_valid():
+            about = form.save(commit=False)
+            about.save()
+            return redirect('instructions')
+           
+    else:
+        form = InstructionsForm(instance=about)
+    
+    students = Employee.objects.all()
+    
+    return render(request, 'employeeapp/instructions.html', {'form': form, 'students': students})        
+
+
+
+class AttendanceView(CreateView):
+    model = Attendance
+    form_class = AttendanceForm
+    template_name = 'employeeapp/attendanceform.html'
+    success_url = reverse_lazy('attendance')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['students'] = Employee.objects.all()
+        return context
+
+def AttendanceListView(request):
+    fines = Attendance.objects.all()
+    return render(request, 'employeeapp/attendance_list.html', {'fines': fines})    
+
+
+
+
+
+def Attendance_delete(request, pk):
+    fine = get_object_or_404(Attendance, pk=pk)
+    fine.delete()
+    return redirect('AttendanceListView')
+
+
+def Attendance_Edit(request, pk):
+    fine = get_object_or_404(Attendance, pk=pk)
+    if request.method == "POST":
+        form = AttendanceForm(request.POST, instance=fine)
+        if form.is_valid():
+            fine = form.save(commit=False)
+            fine.save()
+            return redirect('AttendanceListView')
+           
+    else:
+        form = AttendanceForm(instance=fine)
+    
+    
+    students = Employee.objects.all()
+    
+    return render(request, 'employeeapp/attendanceform.html', {'form': form, 'students': students})    

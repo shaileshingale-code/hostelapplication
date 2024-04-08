@@ -1,9 +1,11 @@
  {% include 'employeeapp/navigation.html' %}
     <div class="main"> 
-     
+     {%  if  user.role == 'admin' %}
       <div align="right">
              <a href="{% url 'raise_notice' %}"> <i class="fa fa-plus"></i> Apply Notice</a>
       </div>
+
+       {% endif %}
       <br>
     <table id="example" class="display nowrap" style="width:100%">
       <thead>
@@ -19,14 +21,21 @@
     <tbody>
 
     {% for notice in notices %}
+
+    
         <tr>
             <td>{{ notice.created_by }} </td>
             <td>{{ notice.date }} </td>
             <td>{{ notice.title }} </td>
             <td>{{ notice.desc }} </td>
            
-            <td> <a href="{% url 'notice_delete' pk=notice.pk %}"><i class="fa fa-trash-o"></i></a>
-                 <a href="{% url 'notice_edit' pk=notice.pk %}"><i class="fa fa-edit"></i></a> </td>
+            <td> 
+                   {%  if  user.role == 'admin' %}
+
+                <a href="{% url 'notice_delete' pk=notice.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'notice_edit' pk=notice.pk %}"><i class="fa fa-edit"></i></a>
+                    {% endif %}
+                  </td>
         </tr>    
     {% endfor %}
 

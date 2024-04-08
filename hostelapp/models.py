@@ -100,4 +100,40 @@ class Refund_Request(models.Model):
     date = models.CharField(max_length=100)
     desc = models.CharField(max_length=100)
     approved_status = models.IntegerField(default=0)
-   
+
+
+class Fine_List(models.Model):
+    USERNAME_FIELD = 'created_by'  
+    created_by = models.CharField(max_length=100)
+    date = models.CharField(max_length=100)
+    desc = models.CharField(max_length=100)
+    approved_status = models.IntegerField(default=0)   
+    student_name = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"Fine for {self.student.username} by {self.created_by}"
+
+class About_Hostel(models.Model):
+    USERNAME_FIELD = 'created_by'  
+    created_by = models.CharField(max_length=100)
+    desc = models.CharField(max_length=100)
+
+class Contact_us(models.Model):
+    USERNAME_FIELD = 'created_by'  
+    created_by = models.CharField(max_length=100)
+    desc = models.CharField(max_length=100)
+
+class Instructions(models.Model):
+    USERNAME_FIELD = 'created_by'  
+    created_by = models.CharField(max_length=100)
+    desc = models.CharField(max_length=100)    
+
+class Attendance(models.Model):
+    USERNAME_FIELD = 'created_by'  
+    created_by = models.CharField(max_length=100)
+    date = models.CharField(max_length=100)  
+    status = models.CharField(max_length=100 ,null=True)   
+    student_name = models.ForeignKey(Employee, on_delete=models.CASCADE)  
+
+    def __str__(self):
+        return f"Fine for {self.student.username} by {self.created_by}"   

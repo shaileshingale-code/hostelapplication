@@ -20,11 +20,16 @@
     <tbody>
 
     {% for leave in leaves %}
+
+    {%  if  user.role == 'admin' %}
+
     <tr>
         <td>{{ leave.apply_by }}</td>
         <td>{{ leave.fromdate }}</td>
         <td>{{ leave.todate }}</td>
          <td>{{ leave.reason }}</td>
+
+         {%  if  user.role == 'admin' %}
          <td>
     {% if leave.approved_status == 0 %}
     
@@ -38,7 +43,28 @@
         Approved
     {% endif %}
 </td>
+ 
 
+ {% else %}
+       
+<td>
+    {% if leave.approved_status == 0 %}
+    
+       Waiting for Approval
+         {% elif leave.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+</td>
+
+    {% endif %}
+
+
+
+
+
+{%  if  user.role == 'admin' %}
 <td>
     {% if leave.approved_status_parents == 0 %}
     
@@ -53,11 +79,117 @@
     {% endif %}
 </td>
 
+{% else %}
+
+<td>
+    {% if leave.approved_status_parents == 0 %}
+    
+       Waiting for Approval
+         {% elif leave.approved_status_parents == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+</td>
+
+{% endif %}
+      
+    </tr>  
+
+
+    {% else %}
+     
+
+
+    <tr  {% if leave.apply_by != user.username %} style="display:none" {% endif %}>
+        <td>{{ leave.apply_by }}</td>
+        <td>{{ leave.fromdate }}</td>
+        <td>{{ leave.todate }}</td>
+         <td>{{ leave.reason }}</td>
+
+         {%  if  user.role == 'admin' %}
+         <td>
+    {% if leave.approved_status == 0 %}
+    
+        <button class="btn btn-primary"onclick="approveLeave({{ leave.id }})"><i class="fa fa-check-circle"></i></button>
+
+         <button class="btn btn-danger"onclick="rejectleave({{ leave.id }})"><i class="fa fa-ban"></i></button>
+
+         {% elif leave.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+</td>
+ 
+
+ {% else %}
+       
+<td>
+    {% if leave.approved_status == 0 %}
+    
+       Waiting for Approval
+         {% elif leave.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+</td>
+
+    {% endif %}
+
+
+
+
+
+
+<{%  if  user.role == 'admin' %}
+<td>
+    {% if leave.approved_status_parents == 0 %}
+    
+        <button class="btn btn-primary"onclick="approveLeaveforparents({{ leave.id }})"><i class="fa fa-check-circle"></i></button>
+
+        <button class="btn btn-danger"onclick="rejectleaveforparent({{ leave.id }})"><i class="fa fa-ban"></i></button>
+         {% elif leave.approved_status == 2 %}
+    Rejected
+
+    {% else %}
+        Approved
+    {% endif %}
+</td>
+
+{% else %}
+
+<td>
+    {% if leave.approved_status_parents == 0 %}
+    
+       Waiting for Approval
+         {% elif leave.approved_status_parents == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+</td>
+
+{% endif %}
+
 
 
 
       
-    </tr>    
+    </tr>  
+
+
+
+
+
+
+
+
+
+
+
+     {% endif %} 
     {% endfor %}
 
 </tbody>

@@ -18,6 +18,8 @@
     <tbody>
 
     {% for document in documents %}
+
+    {%  if  user.role == 'admin' %}
         <tr>
             <td>{{ document.created_by }} </td>
             <td>{{ document.document_name }} </td>
@@ -28,7 +30,28 @@
 
             <td><a href="{% url 'document_delete' pk=document.pk %}"><i class="fa fa-trash-o"></i></a>
                  <a href="{% url 'document_edit' pk=document.pk %}"><i class="fa fa-edit"></i></a></td> 
-        </tr>    
+        </tr> 
+
+
+        {% else %}
+
+           <tr {% if document.created_by != user.username %} style="display:none" {% endif %}>
+            <td>{{ document.created_by }} </td>
+            <td>{{ document.document_name }} </td>
+            <td>{% if document.Document_image %}<a href="/media/{{ document.Document_image }}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% else %}No Photo Uploaded{% endif %}</td>
+
+           
+
+            <td><a href="{% url 'document_delete' pk=document.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'document_edit' pk=document.pk %}"><i class="fa fa-edit"></i></a></td> 
+        </tr> 
+
+
+
+
+{% endif %}
+
     {% endfor %}
 
     </tbody>

@@ -20,6 +20,12 @@ from .models import Phone_Directory
 from .models import Facility_Request
 from .models import Scorecard
 from .models import Refund_Request
+from .models import Fine_List
+from .models import About_Hostel
+from .models import Contact_us
+from .models import Instructions
+from .models import Attendance
+
 
 
 
@@ -288,4 +294,113 @@ class RefundApplyForm(forms.ModelForm):
 
 
 
+class FineApplyForm(forms.ModelForm):
 
+    class Meta:
+        model = Fine_List
+        fields = ['created_by', 'date', 'desc' ,'student_name']
+        labels = {
+            'created_by': 'created_by ',
+            'date': 'date',
+            'desc': 'desc',
+            'student_name': 'student_name',
+            
+           
+
+        }
+        help_texts = {
+            'created_by' : 'please enter your mail id',
+            'date': 'Please enter date',
+            'desc': 'Please enter desc',
+            'student_name': 'Please enter student_name',
+            
+        }
+
+
+
+class AbouthostelForm(forms.ModelForm):
+
+    class Meta:
+        model = About_Hostel
+        fields = ['created_by',  'desc' ]
+        labels = {
+            'created_by': 'created_by ',
+            'desc': 'desc',
+            
+            
+           
+
+        }
+        help_texts = {
+            'created_by' : 'please enter your mail id',
+            'desc': 'Please enter desc',
+            
+            
+        }
+
+
+
+
+class ContactusForm(forms.ModelForm):
+
+    class Meta:
+        model = Contact_us
+        fields = ['created_by',  'desc' ]
+        labels = {
+            'created_by': 'created_by ',
+            'desc': 'desc',
+            
+            
+           
+
+        }
+        help_texts = {
+            'created_by' : 'please enter your mail id',
+            'desc': 'Please enter desc',
+            
+            
+        }
+
+
+class InstructionsForm(forms.ModelForm):
+
+    class Meta:
+        model = Instructions
+        fields = ['created_by',  'desc' ]
+        labels = {
+            'created_by': 'created_by ',
+            'desc': 'desc',
+            
+            
+           
+
+        }
+        help_texts = {
+            'created_by' : 'please enter your mail id',
+            'desc': 'Please enter desc',
+            
+            
+        }     
+
+
+class AttendanceForm(forms.ModelForm):
+
+    class Meta:
+        model = Attendance
+        fields = ['created_by', 'date', 'student_name','status' ]
+        labels = {
+            'created_by': 'created_by ',
+            'date': 'date',
+            'student_name': 'student_name',
+             'status': 'status',
+            
+           
+
+        }
+        help_texts = {
+            'created_by' : 'please enter your mail id',
+            'date': 'Please enter date',
+            'student_name': 'Please enter student_name',
+            'status': 'Please enter attendance',
+            
+        }           

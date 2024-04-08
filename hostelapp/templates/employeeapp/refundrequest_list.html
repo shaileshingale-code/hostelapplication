@@ -19,6 +19,7 @@
     <tbody>
 
     {% for refund in refunds %}
+     {%  if  user.role == 'admin' %}
         <tr>
             <td>{{ refund.created_by }} </td>
             <td>{{ refund.date }} </td>
@@ -41,7 +42,42 @@
 </td> 
             <td><a href="{% url 'refund_delete' pk=refund.pk %}"><i class="fa fa-trash-o"></i></a>
                  <a href="{% url 'refund_edit' pk=refund.pk %}"><i class="fa fa-edit"></i></a></td> 
-        </tr>    
+        </tr> 
+{% else %}
+
+
+<tr  {% if refund.created_by != user.username %} style="display:none" {% endif %}>
+            <td>{{ refund.created_by }} </td>
+            <td>{{ refund.date }} </td>
+            <td>{{ refund.desc }} </td>
+           <td>
+    {% if refund.approved_status == 0 %}
+    
+       <!--  <button class="btn btn-primary"onclick="approverefund({{ refund.id }})" title="approve"><i class="fa fa-check-circle"></i></button>
+
+        <button class="btn btn-danger"onclick="rejectrefund({{ refund.id }})" title="reject"><i class="fa fa-ban"></i></button> -->
+
+        Requested
+
+   {% elif refund.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+
+         
+    
+</td> 
+            <td><a href="{% url 'refund_delete' pk=refund.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'refund_edit' pk=refund.pk %}"><i class="fa fa-edit"></i></a></td> 
+        </tr> 
+
+
+
+
+
+
+      {% endif %}         
     {% endfor %}
 
     </tbody>

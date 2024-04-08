@@ -20,6 +20,8 @@
     <tbody>
 
     {% for scorecard in scorecards %}
+
+     {%  if  user.role == 'admin' %}
         <tr>
             <td>{{ scorecard.created_by }} </td>
             <td>{{ scorecard.course_name }} </td>
@@ -34,7 +36,33 @@
 
             <td><a href="{% url 'scorecard_delete' pk=scorecard.pk %}"><i class="fa fa-trash-o"></i></a>
                  <a href="{% url 'scorecard_edit' pk=scorecard.pk %}"><i class="fa fa-edit"></i></a></td> 
-        </tr>    
+        </tr> 
+
+         {% else %}
+
+          <tr  {% if scorecard.created_by != user.username %} style="display:none" {% endif %}>
+            <td>{{ scorecard.created_by }} </td>
+            <td>{{ scorecard.course_name }} </td>
+            <td>{{ scorecard.semister }} </td>
+            <td>{{ scorecard.remark }} </td>
+
+            
+            <td>{% if scorecard.scorecard_image %}<a href="/media/{{ scorecard.scorecard_image }}" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+                {% else %}No Photo Uploaded{% endif %}</td>
+
+           
+
+            <td><a href="{% url 'scorecard_delete' pk=scorecard.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'scorecard_edit' pk=scorecard.pk %}"><i class="fa fa-edit"></i></a></td> 
+        </tr> 
+        
+
+
+
+
+
+
+          {% endif %}   
     {% endfor %}
 
     </tbody>

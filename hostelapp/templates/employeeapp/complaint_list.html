@@ -24,6 +24,8 @@
     <tbody>
 
     {% for complaint in complaints %}
+
+     {%  if  user.role == 'admin' %}
         <tr>
             <td>{{ complaint.apply_by }} </td>
             <td>{{ complaint.phone }} </td>
@@ -48,7 +50,44 @@
 
             <td><a href="{% url 'complaint_delete' pk=complaint.pk %}"><i class="fa fa-trash-o"></i></a>
                  <a href="{% url 'complaint_edit' pk=complaint.pk %}"><i class="fa fa-edit"></i></a></td> 
-        </tr>    
+        </tr> 
+
+         {% else %}
+
+         <tr  {% if complaint.apply_by != user.username %} style="display:none" {% endif %} >
+            <td>{{ complaint.apply_by }} </td>
+            <td>{{ complaint.phone }} </td>
+            <td>{{ complaint.complaint_type }} </td>
+            <td>{{ complaint.sub_complaint_type }} </td>
+            <td>{{ complaint.description }} </td>
+            <td>{{ complaint.note }} </td>
+            <td>{% if complaint.complaint_image %}<a href="/media/{{ complaint.complaint_image }}" target="_blank"><img    src="/media/{{ complaint.complaint_image }}" style="width:100%;height:50px;" ></a>
+                {% else %}No Photo Uploaded{% endif %}</td>
+
+            <td>
+                {% if complaint.resolve_status == 0 %}
+        
+                 <!-- <button class="btn btn-primary"onclick="resolve({{ complaint.id }})" title="approve"><i class="fa fa-check-circle"></i></button> -->
+
+                 Not yet resolved
+
+                {% else %}
+
+                   <!-- <button class="btn btn-danger"onclick="rejectstudent({{ complaint.id }})" title="reject"><i class="fa fa-ban"></i></button> -->
+
+                 Resolved
+                {% endif %} </td>
+
+            <td>
+                 <!-- <a href="{% url 'complaint_delete' pk=complaint.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'complaint_edit' pk=complaint.pk %}"><i class="fa fa-edit"></i></a> -->
+
+             </td> 
+        </tr>   
+
+
+
+         {% endif %}   
     {% endfor %}
 
     </tbody>

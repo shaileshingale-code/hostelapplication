@@ -1,47 +1,87 @@
  {% include 'employeeapp/navigation.html' %}
     <div class="main"> 
-     {%  if  user.role == 'admin' %}
+     
       <div align="right">
-             <a href="{% url 'create_phonedirectory' %}"> <i class="fa fa-plus"></i> Add Contact</a>
+             <a href="{% url 'fine_upload' %}"> <i class="fa fa-plus"></i> Apply For Fine</a>
       </div>
-       {% endif %}
       <br>
     <table id="example" class="display nowrap" style="width:100%">
       <thead>
         <tr>
-             <th> Created By</th>
-              <th> Photo</th>
-             <th> Name</th>     
-             <th> Position</th>
-             <th> Phone</th>
-             <th> Email</th>
-            
-             
+             <th> Student Name</th>
+             <th> Date</th>     
+             <th> Description</th>
              <th>Action</th>  
         </tr>
 
     </thead>
     <tbody>
 
-    {% for phone in phones %}
+    {% for fine in fines %}
+     {%  if  user.role == 'admin' %}
         <tr>
-            <td>{{ phone.created_by }} </td>
-            <td>{% if phone.photo %}<a href="/media/{{ phone.photo }}" target="_blank"><img    src="/media/{{ phone.photo }}" style="width:50px;height:50px;border-radius: 40px;" ></a>
-                {% else %}<img src="/media/profile_images/noimg.jpg" alt="User Profile Image" style="width:50px;height:50px;border-radius: 40px;">{% endif %}</td>
-            <td>{{ phone.name }} </td>
-            <td>{{ phone.position }} </td>
-            <td>{{ phone.phone }} </td>
-            <td>{{ phone.email }} </td>
+            <td>{{ fine.student_name.firstname}}  {{ fine.student_name.lastname}}</td>
+            <td>{{ fine.date }} </td>
+            <td>{{ fine.desc }} </td>
+          <!--  <td>
+    {% if fine.approved_status == 0 %}
+    
+        <button class="btn btn-primary"onclick="approverefund({{ fine.id }})" title="approve"><i class="fa fa-check-circle"></i></button>
+
+        <button class="btn btn-danger"onclick="rejectrefund({{ fine.id }})" title="reject"><i class="fa fa-ban"></i></button>
+
+   {% elif fine.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+
+         
+    
+</td>  -->
+            <td><a href="{% url 'fine_delete' pk=fine.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'fine_edit' pk=fine.pk %}"><i class="fa fa-edit"></i></a></td> 
+        </tr> 
+{% else %}
+
+
+<!-- <tr  {% if refund.student_name != user.username %} style="display:none" {% endif %}> -->
+    <tr>
+            <td>{{ fine.student_name.firstname}}  {{ fine.student_name.lastname}}</td>
+            <td>{{ fine.date }} </td>
+            <td>{{ fine.desc }} </td>
+          <!--  <td>
+    {% if refund.approved_status == 0 %} -->
+    
+       <!--  <button class="btn btn-primary"onclick="approverefund({{ refund.id }})" title="approve"><i class="fa fa-check-circle"></i></button>
+
+        <button class="btn btn-danger"onclick="rejectrefund({{ refund.id }})" title="reject"><i class="fa fa-ban"></i></button> -->
+
+     <!--    Requested
+
+   {% elif refund.approved_status == 2 %}
+    Rejected
+    {% else %}
+        Approved
+    {% endif %}
+
+         
+    
+</td>  -->
             <td>
-                 {%  if  user.role == 'admin' %}
-                <a href="{% url 'phone_delete' pk=phone.pk %}"><i class="fa fa-trash-o"></i></a>
-                 <a href="{% url 'phone_edit' pk=phone.pk %}"><i class="fa fa-edit"></i></a> </td>
-            {% endif %}
 
-          
+               <!--  <a href="{% url 'refund_delete' pk=fine.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'refund_edit' pk=fine.pk %}"><i class="fa fa-edit"></i></a> -->
+                     
+                 </td> 
+        </tr> 
 
-            
-        </tr>    
+
+
+
+
+
+      {% endif %}         
     {% endfor %}
 
     </tbody>
@@ -54,18 +94,19 @@
       
       <script src="/media/index.js"></script> 
  
+
   <script>
-    function resolve(leaveId) {
+    function approverefund(leaveId) {
         $.ajax({
-            url: '/hostelapp/resolvecomplaint/',
+            url: '/hostelapp/approverefund/',
             type: 'POST',
             data: {
                 'leave_id': leaveId,
                 'csrfmiddlewaretoken': '{{ csrf_token }}' 
             },
             success: function(response) {
-               alert(response.message); 
-               location.reload(); 
+               alert(response.message); // Display success message
+               location.reload(); // Reload the page
             },
             error: function(xhr, errmsg, err) {
                 // Handle error response
@@ -74,15 +115,10 @@
         });
     }
 </script>
-
-
-
-
-
  <script>
-    function rejectstudent(leaveId) {
+    function rejectrefund(leaveId) {
         $.ajax({
-            url: '/hostelapp/rejectstudent/',
+            url: '/hostelapp/rejectrefund/',
             type: 'POST',
             data: {
                 'leave_id': leaveId,

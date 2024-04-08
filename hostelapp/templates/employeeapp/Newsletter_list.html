@@ -1,9 +1,10 @@
  {% include 'employeeapp/navigation.html' %}
     <div class="main"> 
-     
+     {%  if  user.role == 'admin' %}
       <div align="right">
              <a href="{% url 'upload_newsletter' %}"> <i class="fa fa-plus"></i> Create News Letter</a>
       </div>
+       {% endif %}
       <br>
     <table id="example" class="display nowrap" style="width:100%">
       <thead>
@@ -25,8 +26,8 @@
             <td>{{ newsletter.title }} </td>
             <td>{{ newsletter.desc }} </td>
            
-            <td> <a href="{% url 'newsletter_delete' pk=newsletter.pk %}"><i class="fa fa-trash-o"></i></a>
-                 <a href="{% url 'newsletter_edit' pk=newsletter.pk %}"><i class="fa fa-edit"></i></a> </td>
+            <td>{%  if  user.role == 'admin' %} <a href="{% url 'newsletter_delete' pk=newsletter.pk %}"><i class="fa fa-trash-o"></i></a>
+                 <a href="{% url 'newsletter_edit' pk=newsletter.pk %}"><i class="fa fa-edit"></i></a>{% endif %} </td>
         </tr>    
     {% endfor %}
 

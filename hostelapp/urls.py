@@ -52,8 +52,24 @@ from .views import RefundRequestRaiseView
 from .views import RefundRequestListView
 from .views import Refund_Delete
 from .views import Refund_Edit
+from .views import fine_delete
+from .views import fine_Edit
 from .views import approve_refundrequest
 from .views import reject_refundrequest
+from .views import FineUploadView
+from .views import FineListView
+from .views import AboutHostelView
+from .views import ContactusView
+from .views import InstructionsView
+from .views import AttendanceView
+from .views import AttendanceListView
+from .views import Attendance_delete
+from .views import Attendance_Edit
+
+
+
+
+
 
 
 
@@ -175,9 +191,27 @@ urlpatterns = [
 
     path('rejectrefund/', reject_refundrequest, name='reject_refundrequest'),
 
+    path('fine_upload/', FineUploadView.as_view(), name='fine_upload'),
 
+    path('FineListView/', FineListView, name='FineListView'),
 
+    path('finedelete/<int:pk>/delete/', fine_delete, name='fine_delete'),
 
+    path('fineedit/<int:pk>/edit/', fine_Edit, name='fine_edit'),
+
+    path('abouthostel/', AboutHostelView, name='about_hostel'),
+
+    path('contactus/', ContactusView, name='contact_us'),
+
+    path('instructions/', InstructionsView, name='instructions'),
+
+    path('attendance/', AttendanceView.as_view(), name='attendance'),
+
+    path('AttendanceListView/', AttendanceListView, name='AttendanceListView'),
+
+    path('attendancedelete/<int:pk>/delete/', Attendance_delete, name='attendance_delete'),
+
+    path('attendanceedit/<int:pk>/edit/', Attendance_Edit, name='Attendance_edit'),
 
 
 
