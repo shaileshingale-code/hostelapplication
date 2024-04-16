@@ -121,7 +121,7 @@ STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'hostelapp.Employee'
 LOGIN_REDIRECT_URL = 'user_profile'
-LOGIN_URL = 'employee_login'
+LOGIN_URL = 'admin_login'
 
 
 import os

@@ -1,6 +1,5 @@
 # views.py
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
@@ -61,38 +60,16 @@ from django.contrib import messages
 
 
 
-
-# class EmployeeRegistrationView(CreateView):
-#     model = Employee
-#     form_class = EmployeeRegistrationForm
-#     template_name = 'employeeapp/registration.html'  
-#     success_url = reverse_lazy('employee_login') 
-
-
 class EmployeeRegistrationView(CreateView):
     model = Employee
     form_class = EmployeeRegistrationForm
-    template_name = 'employeeapp/registration.html'
-    success_url = reverse_lazy('employee_login')
-
-    def form_valid(self, form):
-        
-        response = super().form_valid(form)
-        
-        messages.success(self.request, 'Registration successful')
-     
-        return response
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        if self.request.method == 'POST' and self.object:
-            context['registration_successful'] = True
-        return context
+    template_name = 'employeeapp/registration.html'  
+    success_url = reverse_lazy('employee_login') 
 
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
+
 class LeaveApplyFormView(CreateView):
     model = LeaveApply
     form_class = LeaveApplyForm
@@ -109,7 +86,7 @@ class LeaveApplyFormView(CreateView):
             return HttpResponseRedirect(reverse_lazy('error_page'))
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class ComplaintApplyFormView(CreateView):
     model = Complaints
     form_class = ComplaintApplyForm
@@ -257,7 +234,6 @@ def Notice_delete(request, pk):
 #         form = ComplaintApplyForm(instance=complaint)
 #     return render(request, 'employeeapp/raisecomplaint.html', {'form': form})
 
-@login_required
 def complaint_edit(request, pk):
     complaint = get_object_or_404(Complaints, pk=pk)
     if request.method == "POST":
@@ -273,7 +249,7 @@ def complaint_edit(request, pk):
         form = ComplaintApplyForm(instance=complaint)
     return render(request, 'employeeapp/raisecomplaint.html', {'form': form})
 
-@login_required
+
 def Notice_edit(request, pk):
     notice = get_object_or_404(Notice, pk=pk)
     if request.method == "POST":
@@ -288,7 +264,7 @@ def Notice_edit(request, pk):
     return render(request, 'employeeapp/raisenotice.html', {'form': form})
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class NoticeApplyFormView(CreateView):
     model = Notice
     form_class = NoticeApplyForm
@@ -305,7 +281,7 @@ class NoticeApplyFormView(CreateView):
             return HttpResponseRedirect(reverse_lazy('error_page')) 
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class UploadDocumentFormView(CreateView):
     model = Document
     form_class = DocumentApplyForm
@@ -328,7 +304,6 @@ class EmployeeLoginView(LoginView):
     form_class = EmployeeLoginForm
     template_name = 'employeeapp/login.html'  
     authentication_form = EmployeeLoginForm
-
 @never_cache
 @login_required    
 def user_profile(request):
@@ -337,38 +312,7 @@ def user_profile(request):
         return render(request, 'employeeapp/user_profile.html')
     else:
         messages.warning(request, "Please wait for approval from the admin.")
-        return redirect('employee_login')
-
-
-   
-
-
-
-# class EmployeeLoginView(LoginView):
-#     template_name = 'employeeapp/login.html'  
-
-#     def dispatch(self, request, *args, **kwargs):
-#         if request.user.is_authenticated:
-#             if hasattr(request.user, 'approved_status') and request.user.approved_status != 1:
-               
-#                 messages.warning(request, "Please wait for approval from the admin.")
-#                 return redirect('employee_login')
-#             else:
-                
-#                 return redirect('user_profile')
-        
-#         return super().dispatch(request, *args, **kwargs)
-
-
-
-    
-
-
-# @never_cache
-# @login_required    
-# def user_profile(request):
-   
-#         return render(request, 'employeeapp/user_profile.html')
+        return render(request, 'employeeapp/login.html')
 
 
 
@@ -389,27 +333,22 @@ class EmployeeProfileUpdateView(UpdateView):
 
 
 
-@never_cache
-@login_required  
 def LeaveApplyListView(request):
     leaves = LeaveApply.objects.all()
     return render(request, 'employeeapp/leave_list.html', {'leaves': leaves})
 
-@never_cache
-@login_required
-def ComplaintListView(request):
-    complaints = Complaints.objects.all()
-    return render(request, 'employeeapp/complaint_list.html', {'complaints': complaints})
 
-@never_cache
-@login_required
 def ComplaintListView(request):
     complaints = Complaints.objects.all()
     return render(request, 'employeeapp/complaint_list.html', {'complaints': complaints})
 
 
-@never_cache
-@login_required
+def ComplaintListView(request):
+    complaints = Complaints.objects.all()
+    return render(request, 'employeeapp/complaint_list.html', {'complaints': complaints})
+
+
+
 def user_dashboard(request):
     leaves = LeaveApply.objects.all()
     return render(request, 'employeeapp/user_profile.html', {'leaves': leaves})
@@ -419,21 +358,18 @@ def user_dashboard(request):
     
 
 
-@never_cache
-@login_required
+
 def ReistrationListView(request):
     employees = Employee.objects.all()
     return render(request, 'employeeapp/registration_list.html', {'employees': employees})
 
 
-@never_cache
-@login_required
+
 def NoticeListView(request):
     notices = Notice.objects.all()
     return render(request, 'employeeapp/notice_list.html', {'notices': notices})  
 
-@never_cache
-@login_required
+
 def DocumentListView(request):
     documents = Document.objects.all()
     return render(request, 'employeeapp/document_list.html', {'documents': documents})    
@@ -461,8 +397,7 @@ def Document_delete(request, pk):
 #     return render(request, 'employeeapp/uploaddocument.html', {'form': form})
 
 
-@never_cache
-@login_required
+
 def Document_edit(request, pk):
     document = get_object_or_404(Document, pk=pk)
     if request.method == "POST":
@@ -481,7 +416,7 @@ def Document_edit(request, pk):
 
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class NewsUploadFormView(CreateView):
     model = News_letter
     form_class = NewsletterApplyForm
@@ -497,8 +432,7 @@ class NewsUploadFormView(CreateView):
           
             return HttpResponseRedirect(reverse_lazy('error_page'))
 
-@never_cache
-@login_required
+
 def NewsletterListView(request):
     newsletters = News_letter.objects.all()
     return render(request, 'employeeapp/Newsletter_list.html', {'newsletters': newsletters})
@@ -526,7 +460,7 @@ def Newsletter_Edit(request, pk):
         form = NewsletterApplyForm(instance=newsletter)
     return render(request, 'employeeapp/raisenewsletter.html', {'form': form})
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class Create_PhoneDirectoryView(CreateView):
     model = Phone_Directory
     form_class = PhoneDirectoryForm
@@ -543,8 +477,7 @@ class Create_PhoneDirectoryView(CreateView):
             return HttpResponseRedirect(reverse_lazy('error_page'))    
 
 
-@never_cache
-@login_required 
+
 def PhoneDirectoryView(request):
     phones = Phone_Directory.objects.all()
     return render(request, 'employeeapp/Phonedirectory_list.html', {'phones': phones})
@@ -558,8 +491,7 @@ def Phone_Delete(request, pk):
     return redirect('phone_directory')    
 
 
-@never_cache
-@login_required 
+
 def Phone_Edit(request, pk):
     phone = get_object_or_404(Phone_Directory, pk=pk)
     if request.method == "POST":
@@ -576,7 +508,7 @@ def Phone_Edit(request, pk):
     return render(request, 'employeeapp/createphonedirectory.html', {'form': form})
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class CreateHostelFacilityView(CreateView):
     model = Facility_Request
     form_class = FacilityApplyForm
@@ -585,14 +517,12 @@ class CreateHostelFacilityView(CreateView):
 
 
   
-@never_cache
-@login_required 
+
 def HostelFacilityRequestView(request):
     requests = Facility_Request.objects.all()
     return render(request, 'employeeapp/hostelfacilityrequest_list.html', {'requests': requests})
 
-@never_cache
-@login_required 
+
 def Request_Edit(request, pk):
     facility = get_object_or_404(Facility_Request, pk=pk)
     if request.method == "POST":
@@ -639,15 +569,14 @@ def reject_facilityrequest(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)     
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class UploadScorecardView(CreateView):
     model = Scorecard
     form_class = ScoreCardApplyForm
     template_name = 'employeeapp/uploadscorecardform.html'
     success_url = reverse_lazy('scorecard_list')           
 
-@never_cache
-@login_required
+
 def ScoreCardListView(request):
     scorecards = Scorecard.objects.all()
     return render(request, 'employeeapp/scorecard_list.html', {'scorecards': scorecards})
@@ -659,8 +588,7 @@ def Scorecard_Delete(request, pk):
     return redirect('scorecard_list')    
 
 
-@never_cache
-@login_required
+
 def Scorecard_Edit(request, pk):
     scorecard = get_object_or_404(Scorecard, pk=pk)
     if request.method == "POST":
@@ -677,15 +605,14 @@ def Scorecard_Edit(request, pk):
     return render(request, 'employeeapp/uploadscorecardform.html', {'form': form})
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class RefundRequestRaiseView(CreateView):
     model = Refund_Request
     form_class = RefundApplyForm
     template_name = 'employeeapp/refundrequestform.html'
     success_url = reverse_lazy('refund_request_list')         
 
-@never_cache
-@login_required
+
 def RefundRequestListView(request):
     refunds = Refund_Request.objects.all()
     return render(request, 'employeeapp/refundrequest_list.html', {'refunds': refunds})
@@ -698,8 +625,7 @@ def Refund_Delete(request, pk):
     refund.delete()
     return redirect('refund_request_list')
 
-@never_cache
-@login_required
+
 def Refund_Edit(request, pk):
     refund = get_object_or_404(Refund_Request, pk=pk)
     if request.method == "POST":
@@ -739,7 +665,7 @@ def reject_refundrequest(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)      
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class FineUploadView(CreateView):
     model = Fine_List
     form_class = FineApplyForm
@@ -752,8 +678,7 @@ class FineUploadView(CreateView):
         return context
 
 
-@never_cache
-@login_required
+
 def FineListView(request):
     fines = Fine_List.objects.all()
     return render(request, 'employeeapp/fine_list.html', {'fines': fines})    
@@ -766,8 +691,7 @@ def fine_delete(request, pk):
     fine.delete()
     return redirect('FineListView')
 
-@never_cache
-@login_required
+
 def fine_Edit(request, pk):
     fine = get_object_or_404(Fine_List, pk=pk)
     if request.method == "POST":
@@ -786,8 +710,7 @@ def fine_Edit(request, pk):
     return render(request, 'employeeapp/fineappform.html', {'form': form, 'students': students})
 
 
-@never_cache
-@login_required 
+
 def AboutHostelView(request):
     about = get_object_or_404(About_Hostel, pk='1')
     if request.method == "POST":
@@ -809,8 +732,7 @@ def AboutHostelView(request):
 
 
 
-@never_cache
-@login_required 
+
 def ContactusView(request):
     about = get_object_or_404(Contact_us, pk='1')
     if request.method == "POST":
@@ -836,8 +758,7 @@ def ContactusView(request):
 
 
 
-@never_cache
-@login_required 
+
 def InstructionsView(request):
     about = get_object_or_404(Instructions, pk='1')
     if request.method == "POST":
@@ -855,7 +776,7 @@ def InstructionsView(request):
     return render(request, 'employeeapp/instructions.html', {'form': form, 'students': students})        
 
 
-@method_decorator([login_required, never_cache], name='dispatch')
+
 class AttendanceView(CreateView):
     model = Attendance
     form_class = AttendanceForm
@@ -866,9 +787,7 @@ class AttendanceView(CreateView):
         context = super().get_context_data(**kwargs)
         context['students'] = Employee.objects.all()
         return context
-        
-@never_cache
-@login_required 
+
 def AttendanceListView(request):
     fines = Attendance.objects.all()
     return render(request, 'employeeapp/attendance_list.html', {'fines': fines})    
@@ -882,8 +801,7 @@ def Attendance_delete(request, pk):
     fine.delete()
     return redirect('AttendanceListView')
 
-@never_cache
-@login_required 
+
 def Attendance_Edit(request, pk):
     fine = get_object_or_404(Attendance, pk=pk)
     if request.method == "POST":

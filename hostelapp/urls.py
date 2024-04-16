@@ -105,9 +105,7 @@ urlpatterns = [
 
     path('raisenotice/', NoticeApplyFormView.as_view(), name='raise_notice'),
 
-    # path('profile/', user_profile, name='user_profile'),
-
-      path('profile/', user_profile, name='user_profile'),
+    path('profile/', user_profile, name='user_profile'),
 
     path('dashboard/', user_dashboard, name='user_dashboard'),
 
