@@ -1,34 +1,276 @@
-<!-- templates/employee/registration.html -->
- <!-- Use your base template if you have one -->
-<html lang="en">
+
+ <html lang="en">
 <head>
-  <title>Dreamz</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<style>
+    /* annimation */
+    @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600");
+
+:root {
+  --bar-scale-y: 0;
+  --sparkle-color: rgb(253 244 215 / 40%);
+}
+
+@keyframes pop-word {
+  to {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes show {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bar-scale {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    transform: scale(0);
+  }
+
+  60% {
+    transform: scale(1) translate(4px, 1px) rotate(8deg);
+  }
+
+  100% {
+    transform: scale(0) translate(4px, 1px) rotate(8deg);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    text-shadow: 0 0 8px red;
+  }
+}
+
+
+h1 {
+  color: black;
+  font-family: "Playfair Display", Vidaloka, serif;
+  font-size: 4rem;
+  line-height: 0.85;
+  perspective: 500px;
+}
+label{
+  text-align: left !important;
+}
+
+.errorlist{
+  color:red;
+  text-align: left;
+}
+
+.word {
+  display: block;
+
+  animation: show 0.01s forwards, pop-word 1.5s forwards;
+  animation-timing-function: cubic-bezier(0.14, 1.23, 0.33, 1.16);
+  opacity: 0;
+
+  transform: rotateX(120deg);
+  transform-origin: 50% 100%;
+}
+
+.word:nth-of-type(2) {
+  padding: 0 2rem;
+
+  animation-delay: 1.5s;
+
+  color: #663103;
+}
+
+.superscript {
+  position: relative;
+  animation-delay: 3.6s;
+
+  animation-duration: 0.25s;
+  animation-name: shimmer;
+
+  vertical-align: text-top;
+}
+
+/* bars */
+.superscript::before {
+  --bar-width: 25%;
+
+  position: relative;
+
+  top: 37%;
+  left: 47%;
+  width: 14%;
+  height: 48%;
+
+  animation: bar-scale 0.25s linear 3s 1 forwards;
+
+  background: linear-gradient(
+    to right,
+    white var(--bar-width),
+    transparent var(--bar-width) calc(100% - var(--bar-width)),
+    white calc(100% - var(--bar-width))
+  );
+
+  content: "";
+
+  transform: scaleY(var(--bar-scale-y));
+}
+
+/* sparkle */
+.superscript::after {
+  --size: 10rem;
+
+  position: absolute;
+
+  top: -5%;
+  left: -85%;
+
+  width: var(--size);
+  height: var(--size);
+
+  animation: sparkle 0.4s linear 3.5s 1 forwards;
+
+  background: radial-gradient(
+      circle at center,
+      rgb(252 249 241 / 94%) 0% 7%,
+      transparent 7% 100%
+    ),
+    conic-gradient(
+      transparent 0deg 18deg,
+      var(--sparkle-color) 18deg,
+      transparent 20deg 40deg,
+      var(--sparkle-color) 40deg,
+      transparent 43deg 87deg,
+      var(--sparkle-color) 87deg,
+      transparent 95deg 175deg,
+      var(--sparkle-color) 175deg,
+      transparent 178deg 220deg,
+      var(--sparkle-color) 220deg,
+      transparent 222deg 270deg,
+      var(--sparkle-color) 270deg,
+      transparent 275deg 300deg,
+      var(--sparkle-color) 300deg,
+      transparent 303deg 360deg
+    );
+
+  border-radius: 50%;
+  clip-path: polygon(
+    50% 0,
+    59.13% 26.64%,
+    85.13% -2.35%,
+    100% 50%,
+    50% 100%,
+    0 50%,
+    31.39% 34.86%
+  );
+
+  content: "";
+
+  filter: blur(1px);
+
+  transform: scale(0);
+}
+
+@media screen and (max-width: 600px) {
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  /* sparkle */
+  .superscript::after {
+    --size: 6rem;
+  }
+}
+
+/* annimation ends */
+    .login-input{
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    height: 45px;
+    padding: 0 5px 0 38px;
+    }
+    .logo-login-page img{
+        padding:8px;
+        border-radius:10px;
+        background: white;
+    }
+    body{
+        width: 100%;
+  height: 100%;
+  background: linear-gradient(#3f87a6 10%, #ebf8e1a2 10%),
+    linear-gradient(to right, #ebf8e100 10%, #c73030 10% 10.2%, #ebf8e100 10.5%);
+  background-size: 100% 25px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+    }
+    .logo-image{
+      width:150px;
+      height:120px;
+    }
+    @media(max-width:768px){
+        .login-main-head{
+            display:none;
+        }
+        body{
+    background: white;
+        }
+    }
+
+
+
+</style>
 </head>
 <body>
  
 
- <div class="container-fluid" >
- <div class="row" >
-<div class="col-md-6 mt-5" style="margin: 0 auto;" >
-<div style="box-shadow: 0px 2px 4px #545050; padding:30px;">
 
-
-{% block content %}
-  <h2 style="text-align: center;"> <i class="fa fa-user-plus"></i> Register</h2>
+  <section class="vh-100 gradient-custom">
+        
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div style="display: flex;width: 50%;">
+            <h1 class="login-main-head" style="text-align: left;background-color: white;padding:24px;">
+                <span class="word">Hostel<span> Management</span> </span>
+                <span class="word">System</span>
+            </h1>
+            </div>
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="card bg-dark text-white" style="border-radius: 1rem;background: -webkit-linear-gradient(bottom,#ed666f,#f5d2d4);">
+                <div class="card-body p-2 text-center">
+                    <div class="logo-login-page">
+                        <img class="logo-image" src="/media/profile_images/image.png" alt="logo">
+                    </div>
+                  <div class="mb-md-3 mt-md-4 pb-4">
+      
+                    <h2 class="fw-bold mb-5 text-uppercase">Register</h2>
+                    
+      
+                    <div class="form-outline form-white mb-2">
+                        
+                     
+  <div class="row">
+  <div class="col-md-12"> 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    
-    <div class="row">
+        <div align="left"> 
+         {{ form.non_field_errors }}
+ 
+    <div class="row mt-2">
         <div class="col-md-6">
     <div class="form-group">
-        <label for="{{ form.username.id_for_label }}">First Name:</label>
+
+        <label for="{{ form.username.id_for_label }}" style="text-align: left !important;"> *First Name :</label>
+
         <input type="text" class="form-control" name="firstname" value="{{ form.firstname.value }}">
         {% for error in form.firstname.errors %}
             <small class="form-text text-danger">{{ error }}</small>
@@ -37,15 +279,15 @@
 </div>
  <div class="col-md-6">
     <div class="form-group">
-        <label for="{{ form.lastname.id_for_label }}">Last Name:</label>
+        <label for="{{ form.lastname.id_for_label }}">*Last Name :</label>
         <input type="text" class="form-control" name="lastname" value="{{ form.lastname.value }}">
     </div>
 </div>
 </div>
-<div class="row">
+<div class="row mt-2">
         <div class="col-md-6">
     <div class="form-group">
-        <label for="{{ form.username.id_for_label }}">Username:</label>
+        <label for="{{ form.username.id_for_label }}" style="">*Username :</label>
         <input type="text" class="form-control" name="username" value="{{ form.username.value }}">
         {% for error in form.username.errors %}
             <small class="form-text text-danger">{{ error }}</small>
@@ -55,7 +297,7 @@
 <div class="col-md-6">
 
     <div class="form-group">
-        <label for="{{ form.password1.id_for_label }}">Password:</label>
+        <label for="{{ form.password1.id_for_label }}">*Password :</label>
         <input type="password" class="form-control" name="password1" value="{{ form.password1.value }}">
         {% for error in form.password1.errors %}
             <small class="form-text text-danger">{{ error }}</small>
@@ -67,10 +309,10 @@
 
 
 
-<div class="row">
+<div class="row mt-2">
         <div class="col-md-6">
     <div class="form-group">
-        <label for="{{ form.phone.id_for_label }}">Phone:</label>
+        <label for="{{ form.phone.id_for_label }}">*Phone :</label>
         <input type="text" class="form-control" name="phone" value="{{ form.phone.value }}">
         {% for error in form.phone.errors %}
             <small class="form-text text-danger">{{ error }}</small>
@@ -80,12 +322,12 @@
 <div class="col-md-6">
 
     <div class="form-group">
-        <label for="{{ form.password1.id_for_label }}">Role:</label>
+        <label for="{{ form.password1.id_for_label }}">*Role :</label>
         <select  class="form-control" name="role" value="{{ form.role.value }}">
          <option value=""> Please select </option>
          <option value="student"> Student</option>
-         <option value="parent"> Parent</option>
-         <option value="admin"> Admin</option>
+         <!-- <option value="parent"> Parent</option>
+         <option value="admin"> Admin</option> -->
 
        </select>
 
@@ -101,11 +343,11 @@
 
 
 
-<div class="row">
+<div class="row mt-4">
         <div class="col-md-6">
     <div class="form-group">
         <label for="{{ form.phone.id_for_label }}">Upload Adhar Card:</label>
-        <input type="file"  name="adhar_image" >
+        <input type="file"  name="adhar_image" accept=".png" >
         {% for error in form.phone.errors %}
             <small class="form-text text-danger">{{ error }}</small>
         {% endfor %}
@@ -115,13 +357,38 @@
 
 
 </div>   
+<br><br>
 
+    <button class="btn btn-outline-light btn-lg px-5" type="submit">Register</button><br><br> <i> already have account please </i><a href="{% url 'employee_login' %}">login</a>
 
-    <button class="btn btn-primary" type="submit">Register</button> already have account please <a href="{% url 'employee_login' %}">login</a>
+     </div>
 </form>
-{% endblock %}
+</div>
+</div>
 
-</div>
-</div>
-</div>
-</div>
+
+
+      
+                
+      
+                  <div>
+                   
+                  </div>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </section>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+    {% if registration_successful %}
+        <script>
+            alert("Registration successful!");
+            window.location.href = "{% url 'employee_login' %}";
+        </script>
+    {% endif %}
+ 
+
